@@ -15,6 +15,8 @@ fastapi = "^0.115.3"
 python-dotenv = "^1.0.1"
 psycopg2-binary = "^2.9.10"
 numpy = "^2.1.2"
+uvicorn = "^0.32.0"
+pydantic = "^2.9.2"
 
 [tool.poetry.group.dev.dependencies]
 ipykernel = "^6.29.5"
@@ -26,7 +28,10 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.ruff]
+target-version = "py312"
 line-length = 120
 
 [tool.ruff.lint]
 select = ["ALL"]
+
+pydocstyle.convention = "google"
