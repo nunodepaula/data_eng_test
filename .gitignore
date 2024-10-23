@@ -140,3 +140,7 @@ dmypy.json
 
 # pytype static type analyzer
 .pytype/
+
+# Development test files:
+etl/test.py
+db_fonte/data_basileia.csv
