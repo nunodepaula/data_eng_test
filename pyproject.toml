@@ -7,6 +7,7 @@ readme = "README.md"
 packages = [{ include = "etl" }, { include = "db_fonte" }]
 
 [tool.poetry.scripts]
+popular_fonte = "db_fonte.populate:populate"
 etl = "etl.invoker:execute"
 
 [tool.poetry.dependencies]

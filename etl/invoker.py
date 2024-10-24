@@ -85,6 +85,9 @@ def execute() -> None:
         "signal_names": ["wind_speed", "power"],
     }
 
+    # Verifica se as tabelas necessárias existem, se não, as cria.
+    create_tables()
+
     response = httpx.get(f"{api_fonte_url}/fetch", params=params)
     response.raise_for_status()
 
@@ -94,9 +97,6 @@ def execute() -> None:
 
     df_agg = df_response.resample("10min").agg(["sum", "mean", "max", "std"])
     df_agg.columns = ["_".join(multi_col) for multi_col in df_agg.columns]  # type: ignore[assignment] # Pandas syntax
-
-    # Verifica se as tabelas necessárias existem, se não, as cria.
-    create_tables()
 
     signal_names = set(df_agg.columns)
     signal_ids = get_signal_ids(signal_names)

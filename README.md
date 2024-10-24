@@ -48,13 +48,23 @@ Teste prático consistindo na implementação de uma pipeline ETL simplificada e
     poetry install
     ```
 
-5. com todas as dependências instaladas, inicie a API de comunicação à Base de dados Fonte:
+5. Popular a base de dados Fonte:
+    
+    Para popular a base de dados fonte, há disponível um dataset com valores históricos de velocidade do vento, temperatura ambiente e direção do vento para a cidade de Basileia (Suiça) para o período de 01/10/2024 a 22/10/2024.
+
+    Para executar o script automática que formata esses dados e preenche a Base de dados fonte com os dados de potência, velocidade do vento e temperatura ambiente, execute o seguinte comando no terminal:
+
+    ```powershell
+    popular_fonte
+    ```
+
+6. Com todas as dependências instaladas e a base de dados fonte populada, inicie a API de comunicação à Base de dados Fonte:
 
     ```powershell
     uvicorn etl.api.app:app
     ```
 
-6. Para executar o script, execute o seguinte comando na linha de comando:
+6. Para executar o script ETL, execute o seguinte comando na linha de comando:
 
     ```powershell
     etl -date 2024-10-01

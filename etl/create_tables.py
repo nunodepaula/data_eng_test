@@ -15,7 +15,10 @@ def create_tables() -> None:
 
     tabelas = inspetor.get_table_names()
 
-    tabelas_alvo = {"data": dao.Data, "signal": dao.Signal}
+    # Como temos apenas duas tabelas e sinais deve ser criada antes, podemos criar uma por uma. Caso tivessemos mais
+    # poderíamos optimizar a criação através de um loop.
+    if "signal" not in tabelas:
+        dao.Signal.__table__.create(bind=dao.engine)
 
-    for nome in tabelas_alvo.keys() - set(tabelas):
-        tabelas_alvo[nome].__table__.create(bind=dao.engine)  # type: ignore[attr-defined] # object é um objeto Base de sqlalchemy
+    if "data" not in tabelas:
+        dao.Data.__table__.create(bind=dao.engine)
