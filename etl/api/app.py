@@ -40,11 +40,13 @@ async def fetch_data(
     end_time: datetime = Query(
         ...,
         title="Timestamp final",
-        description="Ultimo timestamp incluido no filtro de obtenção de dados.",
+        description="Timestamp final para filtrar os dados. (Não incluso)",
         example="2024-10-23T10:12:30",
     ),
     signal_names: list[str] | None = Query(
-        None, title="Lista de sinais a serem retornados.", example=["wind_speed", "power"]
+        None,
+        title="Lista de sinais a serem retornados.",
+        example=["wind_speed", "power"],
     ),
     db_fonte: Session = Depends(get_fonte),
 ) -> JSONResponse:
@@ -65,14 +67,12 @@ async def fetch_data(
     Returns:
         JSONResponse: Lista de dados obtidos.
     """
-    if end_time < start_time:
+    if end_time <= start_time:
         raise HTTPException(status_code=400, detail="start_time deve ser menor que end_time")
     signals = set(signal_names) if signal_names else set()
     if invalid := signals - {"wind_speed", "power", "ambient_temperature"}:
         raise HTTPException(status_code=400, detail=f"Sinais invalidos: {", ".join(invalid)}")
 
-    data = (
-        db_fonte.query(DataFonte).where((DataFonte.timestamp >= start_time) & (DataFonte.timestamp <= end_time)).all()
-    )
+    data = db_fonte.query(DataFonte).where((DataFonte.timestamp >= start_time) & (DataFonte.timestamp < end_time)).all()
 
     return JSONResponse(content=[datum.to_dict(signals) for datum in data])

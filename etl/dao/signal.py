@@ -14,5 +14,5 @@ class Signal(Base):
 
     __tablename__ = "signal"
 
-    id = Column(Integer, primary_key=True, index=True)
-    name = Column(String(50), index=True)
+    id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    name = Column(String(50), index=True, unique=True)

@@ -34,6 +34,7 @@ def populate() -> None:
     cursor = conn.cursor()
 
     with basileia_path.open() as file:
+        # Forma mais eficiente para copiar um grande volume de dados ao banco PostgreSQL
         cursor.copy_from(file, "data", ",")
 
     conn.commit()
