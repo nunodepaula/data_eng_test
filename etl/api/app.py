@@ -16,7 +16,7 @@ from etl.api.models.data_fonte_schema import DataFonteSchema
 
 app = FastAPI()
 
-# ruff: noqa: B008
+# ruff: noqa: B008 (FastAPI syntax)
 
 
 @app.get("/", response_model=str)
