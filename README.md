@@ -72,6 +72,18 @@ Teste prático consistindo na implementação de uma pipeline ETL simplificada e
 
     Onde o valor 2024-10-01 é apenas um exemplo. No banco de dados fonte, há dados entre 01/10/2024 e 22/10/2024. Atente para especificar a data no formato YYYY-MM-DD e apenas uma data de cada vez.
 
+    Nota: Se rodar mais de uma vez para a mesma data, o comportamento atual é sobrescrever o dado repetido com o ultimo enviado.
+
+### Considerações finais e limitações
+
+    Nesta seção, há um breve resumo de algumas melhorias possíveis à rotina atual, para aumentar a robustez do script ETL:
+
+        1. Um dos primeiros pontos para melhorar a robustez seria a conferência do dado de entrada, um tipo de data quality dos inputs, visto que poderia haver dados faltantes no banco de dados fonte (timestamp faltando, valor NaN em um certo timestamp ...). Além de dados faltantes, podem haver outliers, como um valor de temperatura de 70 °C num dia em que a máxima do local foi de 30 °C, ou valores fisicamente impossíveis para a variável. No caso do ETL atual, em que há uma agregação dos dados de 1-minutal para 10-minutal, poder-se-ia ter um tipo de score medindo a porcentagem dessas 10 medidas agrupadas que eram claramente dado contaminado.
+
+        2. Um segundo ponto de melhoria seria um sistema mais robusto de gestão de exceções, como mensagens pré-definidas para possíveis errors que venha a ocorrer na execução. Um possível erro que pode ocorrer é quando o banco fonte está offline (o script atual propaga a exceção recebida pela requisição http). Em um sistema de produção com scheduling, seria ideal que identificasse que a exceção veio de API offline e tentar novamente rodar o script em alguns minutos.
+
+        3. Um outro ponto seria a transmissão de dados continua, em que a API poderia usar o tipo de resposta "StreamingResponse" do fastapi para enviar dados continuamente, a medida que fossem medidos (nesse caso o cliente teria que suportar essa infra-estrutura também). De maneira análoga, usando o AsyncClient do httpx poderíamos receber esses dados em streaming da API. Dados em streaming, no entanto, requer uma maior atenção quanto à qualidade dos dados.
+
 # Problema
 
 ## Sumário
