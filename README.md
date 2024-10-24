@@ -64,7 +64,7 @@ Teste prático consistindo na implementação de uma pipeline ETL simplificada e
     uvicorn etl.api.app:app
     ```
 
-6. Para executar o script ETL, execute o seguinte comando na linha de comando:
+7. Para executar o script ETL, execute o seguinte comando na linha de comando:
 
     ```powershell
     etl -date 2024-10-01
@@ -73,6 +73,8 @@ Teste prático consistindo na implementação de uma pipeline ETL simplificada e
     Onde o valor 2024-10-01 é apenas um exemplo. No banco de dados fonte, há dados entre 01/10/2024 e 22/10/2024. Atente para especificar a data no formato YYYY-MM-DD e apenas uma data de cada vez.
 
     Nota: Se rodar mais de uma vez para a mesma data, o comportamento atual é sobrescrever o dado repetido com o ultimo enviado.
+
+8. Para verificar os dados inseridos na Base de dados Alvo, há um script python chamado "leitura_exemplo.py" na pasta "etl", o qual le os dados para o dia 2024-10-01. Pode-se alterar a data e horário para verifição dos dados nesse script e executá-lo, então, pode-se ver o dataframe equivalente a esses períodos da base de dados.
 
 ### Considerações finais e limitações
 
