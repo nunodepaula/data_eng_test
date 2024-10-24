@@ -4,6 +4,7 @@
 @date: 24-10-2024
 """
 
+import argparse
 from datetime import datetime, timedelta
 
 import httpx
@@ -41,7 +42,26 @@ def add_signal_names(signals: set[str]) -> None:
     session.close()
 
 
-def executar(date: datetime) -> None:
+def date_validator(date: str) -> datetime:
+    """Validador de dados para o argumento de linha de comando.
+
+    Args:
+        date (str): data no formato YYYY-MM-DD.
+
+    Raises:
+        argparse.ArgumentTypeError: Se a data nao estiver no formato esperado.
+
+    Returns:
+        datetime: Data no formato de datetime.
+    """
+    try:
+        return datetime.strptime(date, "%Y-%m-%d")
+    except ValueError:
+        msg = f"Data inválida {date}. Especifique-a no formato YYYY-MM-DD, e.g. 2024-10-25"
+        raise argparse.ArgumentTypeError(msg) from None
+
+
+def execute() -> None:
     """Executar o script ETL.
 
     Args:
@@ -50,6 +70,12 @@ def executar(date: datetime) -> None:
     Raises:
         ValueError: _description_
     """
+    # Interface de linha de comando
+    cmdline_parser = argparse.ArgumentParser(description="Ponto de entrada para o script ETL.")
+    cmdline_parser.add_argument("-date", help="Data para obter dados da API", required=True, type=date_validator)
+    cmdline_args = cmdline_parser.parse_args()
+    date = cmdline_args.date
+
     # Nesse projeto exemplo, usei apenas localhost para simplificaros acessos.
     API_FONTE_URL = "http://localhost:8000"
 
@@ -94,4 +120,4 @@ def executar(date: datetime) -> None:
 
 
 if __name__ == "__main__":
-    executar(datetime(2024, 10, 1))
+    execute()

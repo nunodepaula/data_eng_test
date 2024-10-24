@@ -6,6 +6,9 @@ authors = ["Nuno de Paula <nunodepaula@gmail.com>"]
 readme = "README.md"
 packages = [{ include = "etl" }, { include = "db_fonte" }]
 
+[tool.poetry.scripts]
+etl = "etl.invoker:execute"
+
 [tool.poetry.dependencies]
 python = "^3.12"
 pandas = "^2.2.3"
@@ -17,6 +20,7 @@ psycopg2-binary = "^2.9.10"
 numpy = "^2.1.2"
 uvicorn = "^0.32.0"
 pydantic = "^2.9.2"
+argparse = "^1.4.0"
 
 [tool.poetry.group.dev.dependencies]
 ipykernel = "^6.29.5"
