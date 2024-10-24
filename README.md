@@ -1,11 +1,60 @@
 # data_eng_test
+
 Teste prático consistindo na implementação de uma pipeline ETL simplificada entre dois bancos de dados, com uma API e um script ETL.
 
-# TODOs:
+## Como rodar o projeto
 
-* Dois bancos de dados (Fonte e Alvo)
-* API para isolar o Banco de Dados fonte (Usando fastapi)
-* Script ETL para transferir os dados entre os bancos de dados (Usando httpx para se conectar à API e sqlalchemy para escrever no banco alvo)
+### Requisitos
+
+* Docker instalado na máquina
+* Python versão 3.12
+
+### Passo a passo
+
+1. O primeiro passo é a criação de Virtual Environment Python, para isolar nosso ambiente de execução, então, usando python 3.12, execute o seguinte comando no terminal:
+
+    ```powershell
+    python -m venv .venv
+    ```
+
+    O nome do Virtual Environment é arbitrário, se python 3.12 não for o principal na sua máquina, utilize o caminho até ele.
+
+2. Após a criação do Venv, ative-o:
+
+    windows:
+    ```powershell
+    .\.venv\Scripts\activate
+    ```
+    linux:
+    ```powershell
+    source .venv/bin/activate
+    ```
+
+3. Para iniciar os bancos de dados, rode o seguinte comando no terminal:
+
+    ```powershell
+    docker-compose up -d
+    ```
+
+    Ao rodar esse comando, as bases de dados fonte e alvo devem iniciar-se. É possível verificar através do comando ```docker-compose ps```, obtendo algo como:
+
+![alt text](docs/image.png)
+
+4. Instalar as dependências do projeto. Nesse projeto, usei poetry como gestor de dependências, então recomendo utilizá-lo também, logo caso não o tenha, use pip para instalá-lo ```pip install poetry```
+
+    Em seguida, instale as dependências do projeto usando poetry:
+
+    ```powershell
+    poetry install
+    ```
+
+5. com todas as dependências instaladas, inicie a API de comunicação à Base de dados Fonte:
+
+    ```powershell
+    uvicorn etl.api.app:app
+    ```
+
+
 
 # Problema
 
