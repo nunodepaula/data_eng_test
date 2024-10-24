@@ -54,7 +54,13 @@ Teste prático consistindo na implementação de uma pipeline ETL simplificada e
     uvicorn etl.api.app:app
     ```
 
+6. Para executar o script, execute o seguinte comando na linha de comando:
 
+    ```powershell
+    etl -date 2024-10-01
+    ```
+
+    Onde o valor 2024-10-01 é apenas um exemplo. No banco de dados fonte, há dados entre 01/10/2024 e 22/10/2024. Atente para especificar a data no formato YYYY-MM-DD e apenas uma data de cada vez.
 
 # Problema
 

@@ -38,4 +38,8 @@ line-length = 120
 [tool.ruff.lint]
 select = ["ALL"]
 
+ignore = [
+    "DTZ007", # Por simplicidade, usou-se timestamps e datetimes sem especificação de timezone.
+]
+
 pydocstyle.convention = "google"

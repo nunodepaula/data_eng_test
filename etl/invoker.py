@@ -77,7 +77,7 @@ def execute() -> None:
     date = cmdline_args.date
 
     # Nesse projeto exemplo, usei apenas localhost para simplificaros acessos.
-    API_FONTE_URL = "http://localhost:8000"
+    api_fonte_url = "http://localhost:8000"
 
     params = {
         "start_time": date,
@@ -85,18 +85,15 @@ def execute() -> None:
         "signal_names": ["wind_speed", "power"],
     }
 
-    response = httpx.get(f"{API_FONTE_URL}/fetch", params=params)
-
-    if response.status_code != 200:
-        # TODO: Add propper error logging and exceptions handling
-        raise ValueError(response.json())
+    response = httpx.get(f"{api_fonte_url}/fetch", params=params)
+    response.raise_for_status()
 
     df_response = pd.DataFrame(response.json())
     df_response["timestamp"] = pd.to_datetime(df_response["timestamp"], format="%Y-%m-%d %H:%M:%S")
     df_response = df_response.set_index("timestamp")
 
     df_agg = df_response.resample("10min").agg(["sum", "mean", "max", "std"])
-    df_agg.columns = ["_".join(multi_col) for multi_col in df_agg.columns]
+    df_agg.columns = ["_".join(multi_col) for multi_col in df_agg.columns]  # type: ignore[assignment] # Pandas syntax
 
     # Verifica se as tabelas necessárias existem, se não, as cria.
     create_tables()

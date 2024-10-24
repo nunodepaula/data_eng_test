@@ -17,7 +17,6 @@ class Data(Base):
     timestamp = Column(DateTime, index=True)
     signal_id = Column(Integer, ForeignKey("signal.id"), index=True)
     value = Column(Float)
-    quality = Column(Integer)
 
     # Chave primária composta (timestamp, signal_id)
     __table_args__ = (PrimaryKeyConstraint("timestamp", "signal_id"),)
